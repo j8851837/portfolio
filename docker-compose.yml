@@ -1,0 +1,28 @@
+services:
+  web:
+    build: ./web
+    container_name: mysite.web
+    command: > 
+            uwsgi 
+                --socket :8001
+                --module mysite.wsgi
+                --py-autoreload 1
+                --logto /tmp/mylog.log
+    volumes:
+      - ./src:/code
+      - ./static:/static
+    expose:
+      - "8001"
+
+  nginx:
+    image: nginx
+    container_name: mysite.nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./static:/static
+    depends_on:
+      - web
+

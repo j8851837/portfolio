@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+    <meta charset='UTF-8'>
+    <title>twitter app</title>
+{% if is_mobile == True %}
+    <link rel='stylesheet' href='{% static "app1/style_mobile.css" %}'>
+{% else %}
+    <link rel='stylesheet' href='{% static "app1/style_pc.css" %}'>
+{% endif %}
+</head>
+
+{% if login == True %}
+<body>
+<h1>ログイン済</h1>
+<form action='{% url "logout" %}' method='get'>
+    <p>
+        <input type='submit' value='ログアウト'>
+    </p>
+</form>
+<div id='tweets'>
+    
+</div>
+</body>
+
+<script src='{% static "app1/script.js" %}'></script>
+{% else %}
+<body>
+    <h1>ログインしていません。</h1>
+    <form action='{% url "twitter_auth" %}' method='get'>
+        <p>
+            <input type='submit' value='Twitterアカウントでログイン'>
+        </p>
+    </form>
+</body>
+{% endif %}
+
+</html>
